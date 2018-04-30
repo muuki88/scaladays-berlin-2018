@@ -1,6 +1,6 @@
 name := "ScalaDays-2018"
 version := "1.0"
-scalaVersion := "2.12.5"
+scalaVersion := "2.11.12"
 
 enablePlugins(JavaAppPackaging)
 
