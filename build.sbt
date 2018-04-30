@@ -2,6 +2,9 @@ name := "ScalaDays-2018"
 version := "1.0"
 scalaVersion := "2.11.12"
 
+// (1) java app packaging
+enablePlugins(JavaAppPackaging)
+
 // (2) configure a general setting
 maintainer := "Nepomuk Seiler <muki@gutefrage.net>"
 
@@ -13,18 +16,7 @@ packageDescription in Rpm := "Rpm package description"
 rpmVendor := "rocks.muki"
 rpmLicense := Some("MIT")
 
-// (5) scala native package
-enablePlugins(UniversalPlugin, ScalaNativePlugin)
-mappings in Universal += (nativeLink in Compile).value -> s"bin/${executableScriptName.value}"
-
-// (6) debian package with /usr/bin link
-enablePlugins(DebianPlugin)
-
-import com.typesafe.sbt.packager.linux._
-linuxPackageSymlinks += LinuxSymlink(
-  link = s"/usr/bin/${executableScriptName.value}",
-  destination = (file(defaultLinuxInstallLocation.value) / packageName.value / "bin" / executableScriptName.value).toString
+// (5) custom java options
+javaOptions in Universal ++= Seq(
+  "-J-Xms64m", "-J-Xmx128m"
 )
-
-// (7) use systemloaders to autostart your program
-enablePlugins(SystemdPlugin)
