@@ -15,7 +15,7 @@ rpmLicense := Some("MIT")
 
 // (5) scala native package
 enablePlugins(UniversalPlugin, ScalaNativePlugin)
-mappings in Universal += (nativeLink in Compile).value -> executableScriptName.value
+mappings in Universal += (nativeLink in Compile).value -> s"bin/${executableScriptName.value}"
 
 // (6) debian package with /usr/bin link
 enablePlugins(DebianPlugin)
@@ -23,5 +23,8 @@ enablePlugins(DebianPlugin)
 import com.typesafe.sbt.packager.linux._
 linuxPackageSymlinks += LinuxSymlink(
   link = s"/usr/bin/${executableScriptName.value}",
-  destination = (file(defaultLinuxInstallLocation.value) / packageName.value / executableScriptName.value).toString
+  destination = (file(defaultLinuxInstallLocation.value) / packageName.value / "bin" / executableScriptName.value).toString
 )
+
+// (7) use systemloaders to autostart your program
+enablePlugins(SystemdPlugin)
