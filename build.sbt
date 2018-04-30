@@ -20,3 +20,6 @@ rpmLicense := Some("MIT")
 javaOptions in Universal ++= Seq(
   "-J-Xms64m", "-J-Xmx128m"
 )
+
+// (6) default entrypoint
+mainClass in Compile := Some("rocks.muki.Main")
